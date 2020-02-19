@@ -1,0 +1,1416 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion">
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.proxy.ustclug.org/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css">
+
+
+  <meta name="keywords" content="Hexo, NexT">
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.1">
+
+
+
+
+
+
+<meta property="og:type" content="website">
+<meta property="og:title" content="BaiyangTX&#39;s Site">
+<meta property="og:url" content="https://baiyangtx.github.io/index.html">
+<meta property="og:site_name" content="BaiyangTX&#39;s Site">
+<meta property="og:locale" content="zh-Hans">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="BaiyangTX&#39;s Site">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 0,
+      author: '博主'
+    }
+  };
+</script>
+
+
+
+
+  <link rel="canonical" href="https://baiyangtx.github.io/">
+
+  <title> BaiyangTX's Site </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left 
+   page-home 
+ ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">BaiyangTX's Site</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle"></p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+  <section id="posts" class="posts-expand">
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2020/02/24/BackPressure/" itemprop="url">
+                  基于Netty的反压逻辑实现
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2020-02-24T00:00:00+08:00" content="2020-02-24">
+              2020-02-24
+            </time>
+          </span>
+
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>Netty是现在最流行的异步编程框架，而在使用异步IO完成业务逻辑时，一个重要的议题就是如果让上下游的业务处理速度匹配，反压（BackPressure）是一种常用的手段。本文将介绍反压的模型以及如何在Netty中实现反压。</p>
+<h2 id="什么是反压-BackPressure"><a href="#什么是反压-BackPressure" class="headerlink" title="什么是反压(BackPressure)"></a>什么是反压(BackPressure)</h2><p>反压的问题来自于由多个组件串联工作的架构中，当多个组件以串联的方式组织时，其中上下游生产和消费的速度并不匹配。如果上游传递的消息速度大于下游消费的速度，那么消费端要么会丢弃消息，要么会因内存溢出而崩溃。</p>
+<p><img src="/postimgs/back-pressure/why-we-need-back-pressure.png" alt="为什么需要流控"></p>
+<p>这个时候就需要通过某种机制让上游降低生产速率，从而达到上下游的速率匹配，也就是流控。</p>
+<p>流控有多种方式可以实现，最简单的方式是在上游直接限制生产速率，这种方式称为静态限速：</p>
+<p><img src="/postimgs/back-pressure/simple-control-speed.png" alt="静态限速"></p>
+<p>但是这种方式并不优雅，需要预先估计下游消费者的消费能力，而且当消费者的消费能力出现波动时，无法动态的调整生产者的生产速率。因此动态反馈是一种更加优雅的流控方法。</p>
+<p><img src="/postimgs/back-pressure/dymanic-speed-control.png" alt="动态限速"></p>
+<p>这种流控方式类似于自动控制理论中的反馈控制模型，消费者通过不断的给生产者反馈(feedback)，让生产者可以更加主动的调整自己的生产速率，生产者和消费者之间永远以最佳的速率匹配，从而让整个系统在最优的效率下运行。这个过程中既需要正反馈：在消费者有消费能力时通知生产者提高生产速率；又需要负反馈：在消费者消费能力达到饱和时通知生产者降低生产速率。</p>
+<h2 id="TCP的流控与异步IO"><a href="#TCP的流控与异步IO" class="headerlink" title="TCP的流控与异步IO"></a>TCP的流控与异步IO</h2><p>TCP连接在设计时自带了一套流控系统，ACK机制、滑动窗口、以及拥塞控制就是一套完整的动态反馈。这里简单的回顾一下TCP的流控机制。</p>
+<h3 id="TCP-的消息确认机制以及滑动窗口"><a href="#TCP-的消息确认机制以及滑动窗口" class="headerlink" title="TCP 的消息确认机制以及滑动窗口"></a>TCP 的消息确认机制以及滑动窗口</h3><p>在TCP协议中，每一个发送方的Package都带有唯一编号，因此每一个消息都能够被独立确认，因此发送方可以一次发送多个Package，当接收方接到发送方的消息时，必须回复ACK向发送方确认接收到消息，这个过程是为了保证TCP连接的不丢失的特性。</p>
+<p><img src="/postimgs/back-pressure/tcp-ack.jpg" alt="TCP协议的ACK机制"></p>
+<p>因为发送方可以一次发送多个消息，发送方每次发送的连续的消息序号被称为一个窗口，在发送方内部，所有的消息按序号顺序排列后可以分为四类：</p>
+<ol>
+<li>已经发送并且已经接受到ACK的消息</li>
+<li>已经发送但是未接受到ACK的消息</li>
+<li>未发生但是接收方允许发送的消息</li>
+<li>未发生并且接收方不允许发送的消息</li>
+</ol>
+<p><img src="/postimgs/back-pressure/tcp-sender-window.png" alt="TCP协议发送方窗口"></p>
+<p>其中，2已经发送但是未接收到ACK的消息和3未发生但是接收方允许的消息加在一起，被称为发送端的窗口(Window)。</p>
+<p>对于接收端，同样有三种状态的消息：</p>
+<ol>
+<li>已经接收</li>
+<li>未接受但是准备接收</li>
+<li>未接受且不准备接收</li>
+</ol>
+<p>由于接受方接收消息后立即回复ACK，这里可以认为不存在已接受但未回复ACK的消息。这里未接受但是准备接受的消息就是接收端窗口，通常等于接收缓冲区的可用大小。</p>
+<p>在TCP的协议中，ACK包中带有 WindowsSize 控制段，该字段的含义是接收端的接收窗口大小，接收方通过该字段反馈发送方调整发送窗口的大小。</p>
+<p><img src="/postimgs/back-pressure/tcp-ack-frame-format.png" alt="TCP协议ACK包帧格式"></p>
+<p>当发送端接收到接收端的ACK包时，就可以知道当前接收端的接送能力，调整自己的发送窗口大小，从而达到流控的目标。</p>
+<h3 id="区别滑动窗口与拥塞窗口"><a href="#区别滑动窗口与拥塞窗口" class="headerlink" title="区别滑动窗口与拥塞窗口"></a>区别滑动窗口与拥塞窗口</h3><p>拥塞窗口与滑动窗口一样是TCP协议中进行流控的方式，但是拥塞窗口并不在本文讨论的范畴中，二者是有区别的，这里对二者的区别进行比较：</p>
+<p>滑动窗口是用于发送端和接收端之间匹配发送数据包能力的，发送端和接收端可以理解为本文讨论的生产者和消费者；而拥塞窗口是发送端和中间网络之间流控的窗口，它不涉及到接受端。可以把滑动窗口理解为接收端的接收能力，而拥塞窗口是中间网络的传输能力。</p>
+<p>实际上发送端的发送滑动窗口大小 W = min(awind, cwind) , 其中 awind 是接收端在ACK中反馈的窗口大小，而cwind是发送端通过拥塞控制算法计算出的拥塞窗口大小。</p>
+<h3 id="同步IO与异步IO"><a href="#同步IO与异步IO" class="headerlink" title="同步IO与异步IO"></a>同步IO与异步IO</h3><p>滑动窗口协议可以解决TCP发送端和接收端的处理速率匹配的问题，然而接收端的接收能力不等于数据的处理能力，这个问题通常是由异步IO带来的。</p>
+<p>在同步IO中，接收端从接收缓冲区读取数据与数据的处理是顺序的，接收端接收到的数据通常会立即处理，如果处理不了会保留在接收缓冲区中，这样系统就会在TCP接收回复的ACK中通知发送端减少发送窗口大小。</p>
+<p><img src="/postimgs/back-pressure/sync-handle.png" alt="同步处理逻辑"></p>
+<p>在同步处理逻辑中，业务线程负责从接收缓冲区读取数据并且进行处理，二者的处理能力是匹配的。而在异步IO中，处理逻辑并不是这样，这里以Netty为例。</p>
+<p><img src="/postimgs/back-pressure/async-handle.png" alt="异步处理逻辑"></p>
+<p>在异步IO中，通过Epoll系统调用或Netty框架注册read事件回调，当TCP协议栈向接收缓冲区写入数据后，通过回调调用事件响应函数。在事件响应函数中读取数据，然后提交给同步或异步的业务处理逻辑消费数据。在这个过程中，事件响应函数调用业务处理逻辑的资源耗尽（比如线程池满等原因）无法提交，导致数据丢弃。</p>
+<p>因此在异步IO编程时，当Read事件到达时，需要判断当前业务线程的消费能力，如果已经无法消费数据，那么必须从事件轮询中移除回调，并且不再读取数据。同样的，当业务线程有能力处理时，需要重新向事件轮询中注册读事件的回调，不然后续都无法触发读事件。</p>
+<h2 id="Netty-中对反压的支持"><a href="#Netty-中对反压的支持" class="headerlink" title="Netty 中对反压的支持"></a>Netty 中对反压的支持</h2><h3 id="AUTO-READ-属性"><a href="#AUTO-READ-属性" class="headerlink" title="AUTO_READ 属性"></a>AUTO_READ 属性</h3><p>Netty 作为一个优秀的异步编程框架，提供了简洁的API达到反压的效果。</p>
+<p>反压的核心在于消费端没有能力处理更多数据的时候，不要再从接收缓冲区读取更多数据。Netty对于每个 Channel 提供了一个属性 <code>AUTO_READ</code> 以控制当接收缓冲区中有数据时要不要自动触发读事件。这里引用文档的说法</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">channel 在触发某些事件以后(例如 channelActive, channelReadComplete)以后还会自动调用一次 read(), 默认为true</span><br></pre></td></tr></table></figure>
+<p>其使用方式为</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">// 为所有channel 默认设置 </span><br><span class="line">bootstrap.group(group)</span><br><span class="line">    .channel(NioServerSocketChannel.class)</span><br><span class="line">    .option(ChannelOption.TCP_NODELAY, true)</span><br><span class="line">    .option(ChannelOption.AUTO_READ, false)</span><br><span class="line"></span><br><span class="line">// 或为某个channel 单独调用</span><br><span class="line">channel.setAutoRead(false)</span><br></pre></td></tr></table></figure>
+<p>从文档结合需求上看，如果业务处理能力达到瓶颈希望不再从缓冲区读取数据，只需要在 channel 上调用 <code>channel.setAutoRead(false)</code> 即可。</p>
+<h3 id="原理剖析"><a href="#原理剖析" class="headerlink" title="原理剖析"></a>原理剖析</h3><p>按照文档描述，AUTO_READ 这个属性是用于在 <code>channelActive</code> 事件或 <code>channelReadComplete</code> 后自动触发一次，<code>read()</code> 方法，这里我们先看下read方法做了什么。</p>
+<p>查看 Channel.read() 的实现，只有一个默认实现 <code>AbstractChannel.read()</code> 。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">public abstract class AbstractChannel extends DefaultAttributeMap implements Channel &#123;</span><br><span class="line">    // .... </span><br><span class="line"></span><br><span class="line">    // 这里直接调用的是  DefaultChannelPipeline 的read() 方法</span><br><span class="line">    public Channel read()&#123;</span><br><span class="line">        pipeline.read();</span><br><span class="line">        return this;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>继续进入到 <code>DefaultChannelPipeline</code> 发现其继续调用的是 <code>AbstractChannelHandlerContext.read()</code> 方法；</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">abstract class AbstractChannelHandlerContext extends DefaultAttributeMap implements ChannelHandlerContext &#123;</span><br><span class="line">    // ...</span><br><span class="line">    </span><br><span class="line">    @Override</span><br><span class="line">    public ChannelHandlerContext read() &#123;</span><br><span class="line">        final AbstractChannelHandlerContext next = findContextOutbound();</span><br><span class="line">        EventExecutor executor = next.executor();</span><br><span class="line">        if (executor.inEventLoop()) &#123;</span><br><span class="line">            next.invokeRead();</span><br><span class="line">        &#125; else &#123;</span><br><span class="line">            Runnable task = next.invokeReadTask;</span><br><span class="line">            if (task == null) &#123;</span><br><span class="line">                next.invokeReadTask = task = new Runnable() &#123;</span><br><span class="line">                    @Override</span><br><span class="line">                    public void run() &#123;</span><br><span class="line">                        next.invokeRead();</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;;</span><br><span class="line">            &#125;</span><br><span class="line">            executor.execute(task);</span><br><span class="line">        &#125;</span><br><span class="line">        return this;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这里可以看到，这里判断当前调用者是否在 eventLoop 线程中，如果在 eventLoop 线程中，直接调用 <code>AbstractChannelHandlerContext.invokeRead()</code> 方法，否则则在 eventLoop 的线程中起一个Task调用同样的方法。 read 方法的实现应该就在该 <code>invokeRead()</code> 方法中。继续深究这个方法的调用链，发现是在 <code>DefaultPipeline.HeadContext</code> 中，通过一个 <code>Channel.Unsafe</code> 类调用 <code>beginRead</code> 方法。继续追踪其调用到 <code>AbstractChannel.doBeginRead()</code> 方法，发现有多个实现类, 分别对应着不同类型的IO方式：</p>
+<ol>
+<li>AbstractEpollChannel - 对应着在 Linux系统下，通过NativeApi 调用 epoll 系统调用实现的异步IO</li>
+<li>AbstractNioChannel  - 对应着使用 JavaNio 的实现</li>
+<li>AbstractOioChannel  - Old IO 对应着使用多线程的 BIO实现</li>
+</ol>
+<p>抛开最后一个不看，看前两个实现：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line">abstract class AbstractEpollChannel extends AbstractChannel implements UnixChannel &#123;</span><br><span class="line"></span><br><span class="line">    @Override</span><br><span class="line">    protected void doBeginRead() throws Exception &#123;</span><br><span class="line">        // Channel.read() or ChannelHandlerContext.read() was called</span><br><span class="line">        ((AbstractEpollUnsafe) unsafe()).readPending = true;</span><br><span class="line">        setFlag(readFlag);</span><br><span class="line">    &#125;</span><br><span class="line">    void setFlag(int flag) throws IOException &#123;</span><br><span class="line">        if (!isFlagSet(flag)) &#123;</span><br><span class="line">            flags |= flag;</span><br><span class="line">            modifyEvents();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    private void modifyEvents() throws IOException &#123;</span><br><span class="line">        if (isOpen() &amp;&amp; isRegistered()) &#123;</span><br><span class="line">            ((EpollEventLoop) eventLoop()).modify(this);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">class EpollEventLoop &#123;</span><br><span class="line">    void modify(AbstractEpollChannel ch) throws IOException &#123;</span><br><span class="line">        assert inEventLoop();</span><br><span class="line">        Native.epollCtlMod(epollFd, ch.fd().intValue(), ch.flags);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">// 在EpollChannel中，是通过Native方法将readFlag 注册到 epoll flags 中</span><br></pre></td></tr></table></figure>
+<p>再看 AbstractNioChannel</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">public abstract class AbstractNioChannel extends AbstractChannel &#123;</span><br><span class="line">    @Override</span><br><span class="line">    protected void doBeginRead() throws Exception &#123;</span><br><span class="line">        // Channel.read() or ChannelHandlerContext.read() was called</span><br><span class="line">        if (inputShutdown) &#123;</span><br><span class="line">            return;</span><br><span class="line">        &#125;</span><br><span class="line">        final SelectionKey selectionKey = this.selectionKey;</span><br><span class="line">        if (!selectionKey.isValid()) &#123;</span><br><span class="line">            return;</span><br><span class="line">        &#125;</span><br><span class="line">        readPending = true;</span><br><span class="line">        final int interestOps = selectionKey.interestOps();</span><br><span class="line">        if ((interestOps &amp; readInterestOp) == 0) &#123;</span><br><span class="line">            selectionKey.interestOps(interestOps | readInterestOp);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>也是将 <code>readInterestOp</code> 标志位注册到 <code>SelectionKey</code> 中。所以channel.read() 方法并不是真的去底层读取数据，而是将 read事件注册到异步事件循环中。</p>
+<p>在了解了read() 方法的作用后，可以看到 <code>AUTO_READ</code> 属性是怎样起作用的。在 <code>DefaultChannelPipeline</code> 中</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">final class DefaultChannelPipeline implements ChannelPipeline &#123;</span><br><span class="line"></span><br><span class="line">    public ChannelPipeline fireChannelActive() &#123;</span><br><span class="line">        head.fireChannelActive();</span><br><span class="line"></span><br><span class="line">        if (channel.config().isAutoRead()) &#123;</span><br><span class="line">            channel.read();</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        return this;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public ChannelPipeline fireChannelReadComplete() &#123;</span><br><span class="line">        head.fireChannelReadComplete();</span><br><span class="line">        if (channel.config().isAutoRead()) &#123;</span><br><span class="line">            read();</span><br><span class="line">        &#125;</span><br><span class="line">        return this;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>可以看，在 channelActive 和 channelReadComplete 事件中，如果channel配置了 autoRead, 则会调用 channel.read() 方法注册read事件到eventLoop 上。</p>
+<p>对于动态的修改该值，调用 <code>channel.config().setAutoRead(true)</code> 方法，其实现在 <code>DefaultChannelConfig</code> 类中：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">public class DefaultChannelConfig implements ChannelConfig &#123;</span><br><span class="line">    </span><br><span class="line">    public ChannelConfig setAutoRead(boolean autoRead) &#123;</span><br><span class="line">        boolean oldAutoRead = AUTOREAD_UPDATER.getAndSet(this, autoRead ? 1 : 0) == 1;</span><br><span class="line">        if (autoRead &amp;&amp; !oldAutoRead) &#123;</span><br><span class="line">            channel.read();</span><br><span class="line">        &#125; else if (!autoRead &amp;&amp; oldAutoRead) &#123;</span><br><span class="line">            autoReadCleared();</span><br><span class="line">        &#125;</span><br><span class="line">        return this;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>设置该值时，会判断如果该值发生变动，会重新注册 read 事件监听，或者清除 read 事件监听。</p>
+<h3 id="可能会遇到的坑"><a href="#可能会遇到的坑" class="headerlink" title="可能会遇到的坑"></a>可能会遇到的坑</h3><p>虽然原理以及API都很简单，在实际使用中，如果使用不恰当，可能还是会踩到坑，这里笔者分享2个可能会遇到的问题。</p>
+<p><strong>触发第一次读</strong></p>
+<p>如果是通过 <code>option(ChannelOption.AUTO_READ, false)</code> 方式关闭 autoRead 的，那么需要在 channelActive 方法中主动调用一次 <code>channel.read()</code> 否则是不会触发任何读事件的。</p>
+<p><strong>ByteToMessageDecoder</strong></p>
+<p>使用该特性时，需要小心的与 <code>ByteToMessageDecoder</code> 搭配使用，主要有两个问题：</p>
+<ol>
+<li><p><code>ByteToMessageDecoder</code> 读事件的实现是 decoder 方法，真正的 channelRead 事件已经由该类帮你实现了，在 <code>ByteToMessageDecoder</code> 的实现中，可能已经从缓冲区中读取了数据，也就是说你的缓冲区中的数据已经从内核态被读取到用户态。如果你使用该特性的目的是为了防止OOM，这里可能需要注意一下。</p>
+</li>
+<li><p>在该类的实现中 <code>channelReadComplete</code> 方法中会判断当前 channel 是否是 autoRead, 如果不是，会主动调用一次read。 这个特性导致我们设置的autoRead 完全失去意义。因此在实际应用中，也需要重载 <code>channelReadComplete</code> 方法。</p>
+</li>
+</ol>
+<h2 id="结语"><a href="#结语" class="headerlink" title="结语"></a>结语</h2><p>在生产者消费者系统中，为了匹配生产与消费的速率，流控尤为重要。在使用TCP协议的分布式系统中，由于TCP协议自带了一套流控机制，因此可以使用TCP协议协议中的缓冲区自动实现消费者向生产者的反压。Netty作为一款优秀的网络编程框架，也提供了在异步IO下实现流控的方法，其原理是通过向 epoll 的Flag或 JavaNIO的 SelectionKey 注册或移除 READ 标志实现的，了解其原理有助于我们更好的使用。</p>
+<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><ol>
+<li><a href="https://ververica.cn/developers/advanced-tutorial-2-analysis-of-network-flow-control-and-back-pressure/" target="_blank" rel="noopener">Apache Flink 进阶教程（七）：网络流控及反压剖析</a></li>
+<li><a href="https://www.jianshu.com/p/07bd39becbfd" target="_blank" rel="noopener">TCP滑动窗口协议</a></li>
+<li><a href="https://netty.io/4.0/api/io/netty/channel/ChannelConfig.html" target="_blank" rel="noopener">Netty API文档</a></li>
+</ol>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2018/12/22/mysql8-wal-redesign-lock-free/" itemprop="url">
+                  MySQL 8.0 Innodb 无锁化设计的日志系统
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2018-12-22T00:00:00+08:00" content="2018-12-22">
+              2018-12-22
+            </time>
+          </span>
+
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h1 id="引言"><a href="#引言" class="headerlink" title="引言"></a>引言</h1><p>MySQL 8.0 中一个重要的新特性是对 Redo Log 子系统的重构，通过引入两个新的数据结构 <code>recent_written</code> 和 <code>recent_closed</code> 移除了之前的两个热点锁 <code>log_sys_t::mutex</code> 和 <code>log_sys_t::flush_order_mutex</code>。 这种无锁化的重构使得不同的线程在写入 redo_log_buffer 时得以并行写入， 但因此带来了 log_buffer 不再按 LSN 增长的顺序写入的问题，以及 flush_list 中的脏页不再严格保证 LSN 的递增顺序问题。 本文将介绍 MySQL 8.0 中对 log_buffer 相关代码的重构，并介绍并发写 log_buffer 引入问题的解决办法。</p>
+<h1 id="MySQL-Redo-Log-系统概述"><a href="#MySQL-Redo-Log-系统概述" class="headerlink" title="MySQL Redo Log 系统概述"></a>MySQL Redo Log 系统概述</h1><p>Redo Log 又被称为 WAL ( Write Ahead Log) , 是Innodb存储引擎实现事务持久性的关键。 在InnoDB存储引擎中，事务执行过程被分割成一个个 MTR (Mini TRansaction), 每个MTR在执行过程中，对数据页的更改会产生对应的日志，这个日志就是Redo Log。 事务在提交时，只要保证 redo log 被持久化，就可以保证事务的持久化。由于 redo log 在持久化过程中顺序写文件的特性，使得持久化 redo log 的代价要远远小于持久化数据页，因此通常情况下，数据页的持久化要远落后于redo log。</p>
+<p>每个Redo Log都有一个对应的序号 LSN (Log Sequence Number), 同时数据页上也会记录修改了该数据页的redo log的LSN，当数据页持久化到磁盘上时，就不再需要这个数据页记录的LSN之前的Redo 日志，这个LSN被称作 checkpoint。当做故障恢复的时候，只需要将Checkpoint 之后的 Redo Log 重新应用一遍便可以得到实例 Crash 之前未持久化的全部数据页。</p>
+<p>InnoDb 存储引擎在内存中维护了一个全局的 redo log buffer 用以缓存对 redo log的修改，mtr 在提交的时候，会将mtr 执行过程中产生的本地日志 copy 到全局 redo log buffer 中，并将mtr 执行过程中修改的数据页（被称做脏页 dirty page）加入到一个全局的队列中 flush list。 InnoDB存储引擎会根据不同的策略将 redo log buffer 中的日志落盘，或将 flush list 中的脏页刷盘并推进 checkpoint.</p>
+<p>在脏页落盘以及checkpoint 推进的过程中，需要严格保证 redo 日志先落盘再刷脏页的顺序，在MySQL 8 之前，InnoDB 存储引擎严格的保证 MTR 写入 redo log buffer的顺序是按照 LSN 递增的顺序，以及 flush list 中的脏页按LSN递增顺序排序。<br>在多线程并发写入 redo log buffer 以及 flush list 时，这一约束是通过两个全局锁 <code>log_sys_t::mutex</code> 和 <code>log_sys_t::flush_order_mutex</code> 实现的。</p>
+<h1 id="MySQL-5-7-中-MTR的提交过程"><a href="#MySQL-5-7-中-MTR的提交过程" class="headerlink" title="MySQL 5.7 中 MTR的提交过程"></a>MySQL 5.7 中 MTR的提交过程</h1><p>在MySQL 5.7中，Redo log写入 全局的 redo log buffer 以及将脏页添加到 flush list 的操作均在 mtr 的提交阶段中完成的，简化后的代码为：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">mtr::Command::commit()&#123;</span><br><span class="line">    uint64 len = prepare_write() ;  </span><br><span class="line">    # 这里调用 mutex_enter(log_sys-&gt;mutex) 加全局日志锁</span><br><span class="line">    </span><br><span class="line">    finish_write(len) ;</span><br><span class="line">    # 这里会 copy mtr 事务中的redo 到全局 redo log buffer 并获取到 start_lsn 和 end_lsn</span><br><span class="line">    # 由于在 log_sys-&gt;mutex 保护范围内，这里写入 redo log buffer 的LSN必定的全局递增的</span><br><span class="line"></span><br><span class="line">    mutex_enter(log_sys-&gt;flush_order_mutex) ;</span><br><span class="line">    mutex_exit( log_sys-&gt;mutex )</span><br><span class="line">    # 这里先获取 flush_order_mutex 再释放全局日志锁 mutex，保证只有刚写入 redo log buffer 的线程可以写入 flush list </span><br><span class="line"></span><br><span class="line">    release_block()</span><br><span class="line">    # 调用 add_dirty_page_to_flush_list 将脏页加入到 flush list 中</span><br><span class="line"></span><br><span class="line">    mutex_exit(log_sys-&gt;flush_order_mutex);</span><br><span class="line">    # 释放 flush_order_mutex </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>MySQL官方博客中有一张图可以很好的展示了这个过程 </p>
+<p><img src="/postimgs/mysql8-wal-redesign-lock-free/redo-old-design-flow.png" alt></p>
+<h1 id="MySQL-8-中的无锁化设计"><a href="#MySQL-8-中的无锁化设计" class="headerlink" title="MySQL 8 中的无锁化设计"></a>MySQL 8 中的无锁化设计</h1><p>从上面的代码中可以看到，在有多个MTR并发提交的时候，实际在这些MTR是串行的完成从本地日志Copy redo 到全局Redo Log Buffer 以及添加 Dirty Page 到 Flush list 的。这里的串行操作就是整个MTR 提交过程的瓶颈，如果这里可以改成并行，想必是可以提高MTR的提交效率。</p>
+<p>但是串行化的提交可以严格保证redo Log的连续性以及 flush list 中Page修改LSN的递增，这两个约束使得将 redo log 和 脏页刷入磁盘的行为很简单。只要按顺序将 redo log buffer 中的内容写入文件，以及按flush list 的顺序将脏页刷入表空间，并推进 checkpoint 即可。当MTR不再以串行的方式提交的时候，会导致以下问题需要解决：</p>
+<p><strong>1.</strong> MTR串行的 copy 本地日志到全局 redo log buffer 可以保证每个MTR的日志在 redo log buffer中都是连续的不会分割。 当并行 copy 日志的时候，需要有额外的手段保证mtr的日志copy到 redo log buffer 后仍然连续。MySQL 8.0 中使用一个全局的原子变量 <code>log_t::sn</code> 在copy 数据前为MTR在 redo log buffer 中预留好需要的位置，这样并行copy 数据到 redo log buffer 时就不会相互干扰。</p>
+<p><strong>2.</strong> 由于多个MTR并行 copy 数据到 redo log buffer, 那必然会有一些MTR copy的快一些，有些MTR copy 的比较慢，这时候 redo log buffer 中可能会有空洞，那么就需要一种方法来确定哪些 redo log buffer 中的内容可以写入文件。MySQL 8.0 中引入了新的数据结构 <code>Link_buf</code> 解决了这个问题。</p>
+<p><img src="/postimgs/mysql8-wal-redesign-lock-free/concurrent-copy-redo-to-log-buffer.png" alt="并发写入redo log buffer 带来的空洞问题"></p>
+<p><strong>3.</strong> 并行的添加脏页到 flush list 会打破 flush list 中每个数据页对应LSN的单调性约束，如果仍然按 flush list 中的顺序将脏页落盘，那如何确定 checkpoint 的位置。 </p>
+<p>下面本文将分别讨论以上三个问题。</p>
+<h2 id="MTR复制日志到redo-log-buffer-的无锁化"><a href="#MTR复制日志到redo-log-buffer-的无锁化" class="headerlink" title="MTR复制日志到redo log buffer 的无锁化"></a>MTR复制日志到redo log buffer 的无锁化</h2><p>在MySQL 8.0 中， MTR的提交部分可以用如下伪代码表示:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">void mtr_t::Command:execute()&#123;</span><br><span class="line">    uint len = prepare_write();</span><br><span class="line">    # 获取redo log 的大小</span><br><span class="line"></span><br><span class="line">    auto handle = log_buffer_reserve(*log_sys, len);</span><br><span class="line">    # 为 redo log 在全局的 redo log buffer 中分配空间</span><br><span class="line"></span><br><span class="line">    m_impl-&gt;m_log.for_each_block(write_log);</span><br><span class="line">    # 对每个 block 执行真正的 copy 操作，将 redo log copy到 redo log buffer 中</span><br><span class="line"></span><br><span class="line">    log_buffer_write_completed_before_dirty_pages_added(*log_sys, handle);</span><br><span class="line">    # 等待 flush list 中的无序度降到阈值以内 recent_closed.has_space(start_lsn) </span><br><span class="line"></span><br><span class="line">    add_dirty_blocks_to_flush_list(handle.start_lsn, handle.end_lsn);</span><br><span class="line">    # 将 脏页添加到 flush list 中</span><br><span class="line"></span><br><span class="line">    log_buffer_write_completed_and_dirty_pages_added(*log_sys, handle);</span><br><span class="line">    # 跟新脏页的刷入信息 recent_closed.add_link(start_lsn, end_lsn)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>同5.7的代码相比，最明显的区别就是移除了<code>log_sys-&gt;mutex</code>锁和<code>log_sys-&gt;flush_order_mutex</code>锁,  而实现 redo log 无锁化的关键在于 <code>log_buffer_reserve(*log_sys, len)</code> 这个函数, 其中关键的代码只有两句：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">Log_handle log_buffer_reserve(log_t &amp;log, size_t len) &#123;</span><br><span class="line">    const sn_t start_sn = log.sn.fetch_add(len);</span><br><span class="line">    const sn_t end_sn = start_sn + len;</span><br><span class="line"></span><br><span class="line">    # 其中 log.sn 就是一个全局的 std::atomic&lt;uint64&gt; 原子类型。它表示当前 redo log buffer 中空余位置。</span><br><span class="line">    # 通过原子的修改并获取该变量的值，mtr 线程就可以在 redo log buffer 中为本地 redo log 分配空间</span><br><span class="line">    # 这样当多个 mtr 事务开始真正 copy 数据时，就不会发生冲突</span><br><span class="line">    # ...</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>可以看到，这里是通过一个原子操作 <code>std::atomic&lt;uint64&gt;.fetch_add(log_len)</code> 实现在Copy Redo 之前在全局 Redo Log Buffer 中预分配空间，实现并行写入而不冲突。</p>
+<h2 id="Log-Buffer-空洞问题"><a href="#Log-Buffer-空洞问题" class="headerlink" title="Log Buffer 空洞问题"></a>Log Buffer 空洞问题</h2><p>预分配的方式可以使多个 mtr 不冲突的copy数据到 redo log buffer，但由于有些线程快一些，有些线程慢一些，必然会造成 redo log buffer 的空洞问题，这个使得 redo log buffer 刷入到磁盘的行为变得复杂。</p>
+<p><img src="/postimgs/mysql8-wal-redesign-lock-free/concurrent-copy-redo-to-log-buffer.png" alt="并发写入redo log buffer 带来的空洞问题"></p>
+<p>如上图所示，redo log buffer 中第一个和第三个线程已经完成了 redo log 的写入，第二个线程正在写入到redo log buffer 中，这个时候是不能将三个线程的redo 都落盘的。MySQL 8.0 中引入了一个数据结构 Link_buf 解决这个问题。</p>
+<p>Link_buf 实际上是一个定长数组，并保证数组的每个元素的更新是原子性的，并以环形的方式复用已经释放的空间。</p>
+<p>Link_buf 用于辅助表示其他数据结构的使用情况，在Link_buf中，如果一个索引位置 i 对应的值为非0值 n，则表示Link_buf辅助标记的那个数据结构，从i开始后面n个元素已被占用。同时Link_buf内部维护了一个变量M 表示当前最大可达的LSN， Link_buf 的结构示意图如下所示</p>
+<p><img src="/postimgs/mysql8-wal-redesign-lock-free/link_buf.png" alt="Link_buf示意图"></p>
+<p>在接口层面，Link_buf 实际上定义了3个有效的行为：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">class Link_buf&#123;</span><br><span class="line">    public:</span><br><span class="line">        /* 将一段区间标记到 Link_buf 上 */</span><br><span class="line">        void add_link(uint from, uint to);</span><br><span class="line"></span><br><span class="line">        /* 返回从0开始连续无空洞的区间的末尾，既M值，表示区间 [ 0, tail() ] 都已经被标记到该 Link_buf 上 </span><br><span class="line">        */</span><br><span class="line">        uint tail();</span><br><span class="line"></span><br><span class="line">        /* </span><br><span class="line">        * return tail() &gt; position - L ; L是一个预定义的区间大小。 </span><br><span class="line">        * 该方法用于判断 M 值是否推进到距离 position 足够接近的大小</span><br><span class="line">        */</span><br><span class="line">        bool has_space(uint position) const;</span><br><span class="line"></span><br><span class="line">        /* 从 tail() 值向后扫描并更新 tail()的值 （tail 方法是直接返回了内部保存的 m_tail 的值）*/</span><br><span class="line">        void advance_tail();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>redo log buffer 内部维护了两个 Link_buf 类型的变量 <code>recent_written</code> 和 <code>recent_closed</code> 来维护 redo log buffer 和 flush list 的修改信息。</p>
+<p>对于redo log buffer，buffer 的使用情况和 <code>recent_written</code> 的对应关系如下图所示：</p>
+<p><img src="/postimgs/mysql8-wal-redesign-lock-free/recent-written-before-write.png" alt="recent_written 写入前"></p>
+<p><code>buf_ready_for_write_lsn</code> 这个变量维护的是可以保证无空洞的最大 LSN 值，也就是 <code>recent_written-&gt;tail()</code>的结果，在这之前的 redo log 都是可以安全的持久化到磁盘上的。</p>
+<p>当第一个空洞位置的数据被写入成功后，写入数据的 mtr 通过调用 <code>log.recent_written.add_link(start_lsn, end_lsn)</code> 将 recent_written 内部状态更新为如下图所示的样子。 这部分代码在 log0log.cc 文件的 <code>log_buffer_write_completed</code> 方法中。</p>
+<p><img src="/postimgs/mysql8-wal-redesign-lock-free/recent-written-after-write.png" alt="recent_written 写入后"></p>
+<p>每次修改 recent_written 后，都会触发一个独立的线程 <code>log_writer</code> 向后扫描 recent_written 并更新 <code>buf_ready_for_write_lsn</code> 值（调用 <code>recent_written-&gt;advance_tail()</code> 方法）。 <code>log_writer</code> 线程实际上就是执行日志写入到文件的线程。由 <code>log_writer</code> 线程扫描后的 <code>recent_written</code> 变量内部如下图所示。</p>
+<p><img src="/postimgs/mysql8-wal-redesign-lock-free/recent-written-pushed.png" alt="recent_written 推进后"></p>
+<p>这样就很好的解决了MTR并发写入log_buffer 造成的空洞问题。通过新引入的Link_buf 类型的数据结构，可用很方便的知道哪一部分的redo log可以执行写入磁盘的操作。</p>
+<h3 id="关于更多落盘的细节"><a href="#关于更多落盘的细节" class="headerlink" title="关于更多落盘的细节"></a>关于更多落盘的细节</h3><p>在 MySQL 8 中，Redo log 的落盘过程交由两个独立的线程完成，分别是 <code>log_writer</code> 和 <code>log_flusher</code>, 前者负责将 redo log buffer 中的数据写入到 OS Cache 中， 后者负责不停的执行 <code>fsync</code> 操作将 OS Cache 中的数据真正的写入到磁盘里。两个线程通过一个全局的原子变量 <code>log_t::write_lsn</code> 同步，write_lsn 表示当前已经写入到OS Cache的Redo log最大的LSN。</p>
+<p><img src="/postimgs/mysql8-wal-redesign-lock-free/log_writer-and_log_flusher.png" alt="log_writer 和 log_flusher"></p>
+<p>log buffer 中的 redo log的落盘不需要由用户线程关心，用户线程只需要在事务提交的时候，根据 <code>innodb_flush_log_at_trx_commit</code> 定义的不同行为，等待 <code>log_writer</code> 或 <code>log_flusher</code>的通知即可。</p>
+<p><code>log_writer</code> 线程会在监听到 <code>recent_written</code> 被修改后，将log_buffer 中大于 <code>log_t::write_lsn</code> 小于 <code>buf_ready_for_write_lsn</code> 的 redo log 刷入到 OS Cache 中，并更新 <code>log_t::write_lsn</code>。 </p>
+<p><code>log_flusher</code> 线程则在监听到 write_lsn 更新后调用一次 fsync() 并更新 <code>flushed_to_disk_lsn</code> ，该变量保存的是最新fsync到文件的值。</p>
+<p><img src="/postimgs/mysql8-wal-redesign-lock-free/log_writer-and_log_flusher-sync.png" alt="log_writer 和 log_flusher"></p>
+<p>在这种设计模式下，用户线程只负责写日志到 log_buffer 中，日志的刷新和落盘是完全异步的，根据 <code>innodb_flush_log_at_trx_commit</code> 定义的不同行为，用户线程在事务提交时需要等待日志写入操作系统缓存或磁盘。</p>
+<p>在8.0 之前，是由用户线程触发fsync 或者等先提交的线程执行fsync( Group Commit 行为)， 而在MySQL 8.0 中，用户线程只需要等待 <code>flushed_to_disk_lsn</code> 足够大即可。</p>
+<p><img src="/postimgs/mysql8-wal-redesign-lock-free/8-before-user-thread-wait-fsync.png" alt="8.0 之前用户线程触发 fsync "></p>
+<p>8.0 中采用了一个分片的消息队列来通知用户线程，比如用户线程需要等待 <code>flushed_to_disk_lsn &gt;= X</code> 那么就会加入到X所属的消息队列。分片可以有效的降低消息同步的损耗以及一次需要通知的线程数。</p>
+<p><img src="/postimgs/mysql8-wal-redesign-lock-free/flushed_to_disk_lsn_wait_queue.png" alt="分片的通知消息队列 "></p>
+<p>在8.0 中，由后台线程 <code>log_flush_notifier</code> 通知等待的用户线程，用户线程、<code>log_writer</code>、<code>log_flusher</code>、<code>log_flush_notifier</code> 四个线程之间的同步关系为。</p>
+<p><img src="/postimgs/mysql8-wal-redesign-lock-free/8-after-user-thread-wait-fsync.png" alt="8.0中用户线程、`log_writer`、`log_flusher`、`log_flush_notifier` 四个线程之间的同步关系"></p>
+<p>8.0 中为了避免用户线程在陷入等待状态后立即被唤醒，用户线程会在等待前做自旋以检查等待条件。8.0中新增加了两个Dynamic Variable: <code>innodb_log_spin_cpu_abs_lwm</code> 和<code>innodb_log_spin_cpu_pct_hwm</code> 控制执行自旋操作时CPU的水位，以免自旋操作占用了太多的CPU。</p>
+<h2 id="flush-list-并发控制以及check-point-推进"><a href="#flush-list-并发控制以及check-point-推进" class="headerlink" title="flush list 并发控制以及check point 推进"></a>flush list 并发控制以及check point 推进</h2><p>回到上面的MTR提交的代码，可以看到在将 redo log 写入全局的 log buffer 中以后， mtr立即开始了将脏页加入到flush list的步骤，其过程分为三个函数调用。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">log_buffer_write_completed_before_dirty_pages_added(*log_sys, handle);</span><br><span class="line"># 等待 flush list 中的无序度降到阈值以内 recent_closed.has_space(start_lsn) </span><br><span class="line"></span><br><span class="line">add_dirty_blocks_to_flush_list(handle.start_lsn, handle.end_lsn);</span><br><span class="line"># 将 脏页添加到 flush list 中</span><br><span class="line"></span><br><span class="line">log_buffer_write_completed_and_dirty_pages_added(*log_sys, handle);</span><br><span class="line"># 跟新脏页的刷入信息 recent_closed.add_link(start_lsn, end_lsn)</span><br></pre></td></tr></table></figure>
+<p>这里同样是通过一个 Link_Buf 类型的无锁结构 <code>recent_closed</code> 来跟踪处理 flush list 并发写入状态。假设MTR在提交时产生的redo log的范围是[start_lsn, end_lsn]，MTR在将这些redo 对应的脏页加入到某个 flush list 后，立即将 start_lsn 到 end_lsn 这段标记在 <code>recent_closed</code> 结构中。<code>recent_closed</code> 同样在内部维护了变量M，M对应着一个LSN，表示所有小于该LSN的脏页都加入到了 flush list中。 而与 redo log 写入不同的是，MTR在写入flush list之前，需要等待M值与 start_lsn相差不是太多才可以写入。这是为了将 flush list上的空洞控制在一个范围之内，这个过程的示意图如下：</p>
+<p><img src="/postimgs/mysql8-wal-redesign-lock-free/recent-closen.png" alt="MTR写入flush list的过程 "></p>
+<p>MTR在写入到flush list之前，需要等待M值与 start_lsn 的相差范围是一个常数L，这个常数度量了flush list中的无序度，它使得checkpoint的确定变得简单（实际代码中，L值就是recent_closed内部容量大小）。</p>
+<p>从上面的代码可以看到，在8.0中实际上加入到 flush list 的行为并不是完全并发的，但也不是5.7中完全串行的，而是被控制到一个范围L之内的并行写入。由于MTR需要等待条件 <code>start_lsn - M &lt; L</code> 成立才能加入到 flush list , 反过来说，对于 flush list 中的每个 Page ，如果其对应的修改的LSN为 Ln ，那么可以断定 Ln - L 对应的 Page 一定已经加入到了 flush list 中，而且一定在当前Page之前（因为Page添加时的检查条件 Ln-L &lt; M, M之前是无空洞连续的LSN）。 也就是说，在延续原有的按 flush list的顺序刷新脏页到磁盘的策略不变的情况下，只需要将 checkpoint 的推进由原来的 Page对应的LSN 改成 LSN-L 即可。 </p>
+<p>MySQL 8.0 中实际实现的时候，checkpoint 推进任然是按照 Page 对应的LSN写入的，只不过Recover的时候从 Checkpoint - L 开始执行，这两张方式实际上是等效的。 不过在MySQL 8.0中，Recover阶段从 Checkpoint - L 的地方开始，可能会遇到 Checkpoint -L 是某个 Redo 的中间位置而不是开始位置的情况，所以要对一些边界情况做一些额外的工作才行。</p>
+<h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1><p>对于InnoDb存储引擎，Redo Log的处理是实现事务持久性的关键，在MySQL 5.7 及以前，通过两个全局锁，实际上使MTR的提交过程串行化保证了RedoLog以及脏页处理的正确性，这使得MTR的提交过程因为锁竞争的缘故无法充分的发挥多核的优势。8.0 中通过引入的 Link_buf 数据结构将整个模块变成了 Lock_free 的模式，必然会带来性能上的提升。</p>
+<h1 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h1><ol>
+<li><a href="https://yq.aliyun.com/articles/592215?utm_content=m_49932" target="_blank" rel="noopener">MySQL8.0: 重新设计的日志子系统</a></li>
+<li><a href="https://mysqlserverteam.com/mysql-8-0-new-lock-free-scalable-wal-design/" target="_blank" rel="noopener">MySQL 8.0: New Lock free, scalable WAL design</a></li>
+<li><a href="https://dev.mysql.com/doc/dev/mysql-server/8.0.11/PAGE_INNODB_REDO_LOG.html" target="_blank" rel="noopener">MySQL Source Code Documentation/InnoDB Redo Log</a></li>
+<li><a href="http://www.leviathan.vip/2018/12/15/InnoDB%E7%9A%84Redo-Log%E5%88%86%E6%9E%90/" target="_blank" rel="noopener">InnoDB的Redo Log分析</a></li>
+<li><a href="http://mysql.taobao.org/monthly/2018/07/01/" target="_blank" rel="noopener">MySQL · 引擎特性 · WAL那些事儿</a></li>
+</ol>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2018/05/11/mysql8-writeset-based-replica/" itemprop="url">
+                  MySQL 并行复制演进及 MySQL 8.0 中基于 WriteSet 的优化
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2018-05-11T00:00:00+08:00" content="2018-05-11">
+              2018-05-11
+            </time>
+          </span>
+
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>MySQL 8.0 可以说是MySQL发展历史上里程碑式的一个版本，包括了多个重大更新，目前 Generally Available 版本已经已经发布，正式版本即将发布，在此将介绍8.0版本中引入的一个重要的新特性————基于 WriteSet 的并行复制方案，此方案号称是彻底解决困扰MySQL运维人员多年的复制延迟问题。</p>
+<p>说到并行复制，这里简单的回顾一下各个版本的MySQL复制的演进，以帮助理解8.0版本中对并行复制MTS的优化。</p>
+<h1 id="MySQL-主从复制模型"><a href="#MySQL-主从复制模型" class="headerlink" title="MySQL 主从复制模型"></a>MySQL 主从复制模型</h1><p>一切都要从MySQL的主从复制模型开始说起，下图是最经典的MySQL主从复制模型架构图 </p>
+<p><img src="/postimgs/mysql8-writeset-based-replica/master-slave-architecture.png" alt></p>
+<p>MySQL的主从架构依赖于 MySQL Binlog 功能， Master节点上产生Binlog并将Binlog写入到Binlog文件中。Slave节点上启动两个线程：一个IO线程，从MySQL上捞取Binlog日志并写入到本地的RelayLog日志；另一个SQL线程，不断的从RelayLog日志中读取日志，并解析执行。这样通过在主机和从机上增加几个文件的顺序读写操作，就可以保证所有在主机上执行过的SQL语句都在从机上一摸一样的执行过一遍。而复制延迟，指的就是一个事务在Master执行完成以后，要多久以后才能在Slave上执行完成。</p>
+<p>由于对Binlog文件以及RelayLog文件的读写均为顺序操作，在生产环境中，Slave上的IO线程对Binlog文件的Dump操作是很少产生延迟的。 实际上，从MySQL 5.5 开始，MySQL官方提供了半同步复制插件，每个事务的Binlog需要保证传输到Slave写入 RelayLog 后才能提交，这种架构在主从之间提供了数据完整性，保证了主机在发生故障后从机可以拥有完整的数据副本。因此，复制延迟通常发生在SQL线程执行的过程中。从架构图上可以看到，最早的主从复制模型中，只有一个线程负责执行 Relaylog，也就是说所有在主机上的操作，在从机上是串行回放的。 这就带来一个问题，如果主上写入压力比较大，那么从上的回放速度很有可能会一直跟不上主。（除此之外，MySQL的架构决定了Binlog只有在Commit阶段才会写入Binlog文件并Dump给从机，这也导致主从事务必然有执行延迟，这个问题在大事务中体现的特别明显，不过这个问题就不在本文的讨论范围内了）</p>
+<p>既然主从延迟的问题是单线程回放RelayLog太慢，那么减少主从延迟的方案自然就是提高从机上回放RelayLog 的并行度。</p>
+<h1 id="5-6中的并行复制————Schema级别的并行复制"><a href="#5-6中的并行复制————Schema级别的并行复制" class="headerlink" title="5.6中的并行复制————Schema级别的并行复制"></a>5.6中的并行复制————Schema级别的并行复制</h1><p>MySQL官方在5.6中引入了一个比较简单并行复制方案，其架构如下：（图片来自姜承尧老师的博客）</p>
+<p><img src="/postimgs/mysql8-writeset-based-replica/5-6-replication-architecture.png" alt></p>
+<p>红色框部分为并行回放的关键，5.6中若开启并行回放的功能，便会启动多个WorkThread ，而原来负责回放的SQLThread会转变成Coordinator角色，负责判断事务能否并行执行并分发给WorkThread。</p>
+<p>如果事务分别属于不同的Schema，并且不是DDL语句且没有跨Schema操作，那么就可以并行回放，否则需要等所有Worker线程执行完成后再执行当前日志中的内容。</p>
+<p>这种并行回放是Schema级别的并行，如果实例上有多个Schema将会因此收益，而如果实例上只有一个Schema，那么事务将无法并行回放，而且还会因多了分发的操作导致效率略微下降。而在实际应用中，单库多表才是更常见的情况。</p>
+<h1 id="5-7中的并行复制————基于Group-Commit-的并行复制"><a href="#5-7中的并行复制————基于Group-Commit-的并行复制" class="headerlink" title="5.7中的并行复制————基于Group Commit 的并行复制"></a>5.7中的并行复制————基于Group Commit 的并行复制</h1><p>虽然5.6中的并行复制在大多数应用场景中对回放速度的提升不大，但是该架构却成为了后来MySQL并行复制的基础——既在Slave上并行回放RelayLog，SQL线程负责判断能否并行回放，并分配给Work线程回放。</p>
+<p>5.6 中引入Group Commit技术，这是为了解决事务提交的时候需要fsync导致并发性不够而引入的。简单来说，就是由于事务提交时必须将Binlog写入到磁盘上而调用fsync，这是一个代价比较高的操作，事务并发提交的情况下，每个事务各自获取日志锁并进行fsync会导致事务实际上以串行的方式写入Binlog文件，这样就大大降低了事务提交的并发程度。5.6中采用的Group Commit技术将事务的提交阶段分成了 Flush, Sync, Commit 三个阶段，每个阶段维护一个队列，并且由该队列中第一个线程负责执行该步骤，这样实际上就达到了一次可以将一批事务的Binlog fsync到磁盘的目的，这样的一批同时提交的事务称为同一个Group的事务。</p>
+<p>Group Commit 虽然是属于并行提交的技术，但是却意外的解决了从机上事务并行回放的一个难题————既如何判断哪些事务可以并行回放。如果一批事务是同时Commit的，那么这些事务必然不会互斥的持有锁，也不会有执行上的相互依赖，因此这些事务必然可以并行的回放。</p>
+<p>因此MySQL 5.7 中引入了新的并行回放类型， 由参数 <code>slave_parallel_type</code>决定，默认值<code>DATABASE</code>将会采用5.6版本中的SCHEMA级别的并行回放，设置为 <code>LOGICAL_LOCK</code> 则会采用基于GroupCommit的并行回放，同一个Group内的事务将会在Slave上并行回放。</p>
+<p>为了标记事务所属的组，MySQL 5.7 版本在产生 Binlog 日志时会有两个特殊的值记录在Binlog Event中， <code>last_committed</code> 和 <code>sequence_number</code> , 其中 last_committed 指的是该事务提交时，上一个事务提交的编号，sequence_number 是事务提交的序列号，在一个Binlog文件内单调递增。如果两个事务的 <code>last_committed</code> 值一致，这两个事务就是在一个组内提交的。 </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">root@localhost:~# mysqlbinlog mysql-bin.0000006 | grep last_committed</span><br><span class="line">#150520 14:23:11 server id 88 end_log_pos 259 CRC32 0x4ead9ad6 GTID last_committed=0 sequence_number=1</span><br><span class="line">#150520 14:23:11 server id 88 end_log_pos 1483 CRC32 0xdf94bc85 GTID last_committed=0 sequence_number=2</span><br><span class="line">#150520 14:23:11 server id 88 end_log_pos 2708 CRC32 0x0914697b GTID last_committed=0 sequence_number=3</span><br><span class="line">#150520 14:23:11 server id 88 end_log_pos 3934 CRC32 0xd9cb4a43 GTID last_committed=0 sequence_number=4</span><br><span class="line">#150520 14:23:11 server id 88 end_log_pos 5159 CRC32 0x06a6f531 GTID last_committed=0 sequence_number=5</span><br><span class="line">#150520 14:23:11 server id 88 end_log_pos 6386 CRC32 0xd6cae930 GTID last_committed=0 sequence_number=6</span><br><span class="line">#150520 14:23:11 server id 88 end_log_pos 7610 CRC32 0xa1ea531c GTID last_committed=6 sequence_number=7</span><br><span class="line">#150520 14:23:11 server id 88 end_log_pos 8834 CRC32 0x96864e6b GTID last_committed=6 sequence_number=8</span><br><span class="line">#150520 14:23:11 server id 88 end_log_pos 10057 CRC32 0x2de1ae55 GTID last_committed=6 sequence_number=9</span><br><span class="line">#150520 14:23:11 server id 88 end_log_pos 11280 CRC32 0x5eb13091 GTID last_committed=6 sequence_number=10</span><br><span class="line">#150520 14:23:11 server id 88 end_log_pos 12504 CRC32 0x16721011 GTID last_committed=6 sequence_number=11</span><br><span class="line">#150520 14:23:11 server id 88 end_log_pos 13727 CRC32 0xe2210ab6 GTID last_committed=6 sequence_number=12</span><br><span class="line">#150520 14:23:11 server id 88 end_log_pos 14952 CRC32 0xf41181d3 GTID last_committed=12 sequence_number=13</span><br></pre></td></tr></table></figure>
+<p>如上 binlog 文件中， sequence_number 1-6 的事务 last_committed 都是0 ，因此属于同一个组，可以在slave上并行回放， 7-12的last_committed 都是6，也属于同一个组，因此可以并行回放。</p>
+<p>5.7 中引入的基于Logical_Lock极大的提高了在主机并发压力比较大的情况下，从机上的回放速度。基本上做到了主机上如何提交的，在从机上如何回放。</p>
+<h1 id="MySQL-MGR-中的-WriteSet"><a href="#MySQL-MGR-中的-WriteSet" class="headerlink" title="MySQL MGR 中的 WriteSet"></a>MySQL MGR 中的 WriteSet</h1><p>在5.7中基于逻辑时钟 Logical_Clock 的并行复制任然有不尽人意的地方，必须是在主上并行提交的事务才能在从上并行回放，如果主上并发压力不大，那么就无法享受到并行复制带来的好处。5.7 中引入了<br><code>binlog_group_commit_sync_delay</code> 和 <code>binlog_group_commit_sync_no_delay_count</code> 两个参数，通过让Binlog在执行 fsync 前等待一小会来提高Master上组提交的比率。但是无论如何，从上并行回放的速度还是取决于主上并行提交的情况。</p>
+<p>MySQL 8.0中引入了一种新的机制来判断事务能否并行回放，通过检测事务在运行过程中是否存在写冲突来决定从机上的回放顺序，这使得从机上的并发程度不再依赖于主机。</p>
+<p>事实上，该机制在 MySQL 5.7.20 版本中就已经悄悄的应用了。5.7.20版本引入了一个重要的特性： Group Replication，通过Paxso协议在多个MySQL节点间分发binlog，使得一个事务必须在集群内大多数节点(N/2+1)上提交成功才能提交。为了支持多主写入，MySQL MRG 在Binlog分发节点完成后，通过一个Certify阶段来决定Binlog中的事务是否写入RelayLog 中。这个过程中，Certify阶段采用的就是WriteSet的方式验证事务之间是否存在冲突，同时，在写入RelayLog 时会将没有冲突的事务的 last_committed 值设置为相同的值。</p>
+<p>比如在5.7.20中，进行如下操作：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">&gt; -- create a group replication cluster.</span><br><span class="line">&gt; STOP GROUP_REPLICATION; START GROUP_REPLICATION;</span><br><span class="line">Query OK, 0 rows affected (9.10 sec)</span><br><span class="line"></span><br><span class="line">&gt; -- All the next commands on the primary member of the group:</span><br><span class="line">&gt; CREATE DATABASE test_ws_mgr ;</span><br><span class="line">Query OK, 1 row affected (0.01 sec)</span><br><span class="line"></span><br><span class="line">&gt; CREATE TABLE  test_ws_mgr.test ( id int primary key auto_increment, str varchar(64) not null );</span><br><span class="line">Query OK, 1 row affected (0.01 sec)</span><br><span class="line"></span><br><span class="line">&gt; INSERT INTO test_ws_mgr.test(`str`) VALUES (&quot;a&quot;);</span><br><span class="line">Query OK, 1 row affected (0.01 sec)</span><br><span class="line"></span><br><span class="line">&gt; INSERT INTO test_ws_mgr.test(`str`) VALUES (&quot;b&quot;);</span><br><span class="line">Query OK, 1 row affected (0.01 sec)</span><br><span class="line"></span><br><span class="line">&gt; INSERT INTO test_ws_mgr.test(`str`) VALUES (&quot;c&quot;);</span><br><span class="line">Query OK, 1 row affected (0.01 sec)</span><br></pre></td></tr></table></figure>
+<p>以上代码在一个MGR 集群中创建了一个数据库和一个INNODB表，并插入了三条记录。这个时候，如何查询Primary 节点上的Binlog，可能会得到如下结果<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"># mysqlbinlog mysql-bin.N | grep last_ |  sed -e &apos;s/server id.*last/[...] last/&apos; -e &apos;s/.rbr_only.*/ [...]/&apos;</span><br><span class="line">#180106 19:31:59 [...] last_committed=0 sequence_number=1 [...] -- CREATE DB</span><br><span class="line">#180106 19:32:02 [...] last_committed=1 sequence_number=2 [...] -- CREATE TB</span><br><span class="line">#180106 19:32:05 [...] last_committed=2 sequence_number=3 [...] -- INSERT a</span><br><span class="line">#180106 19:32:08 [...] last_committed=3 sequence_number=4 [...] -- INSERT b</span><br><span class="line">#180106 19:32:11 [...] last_committed=4 sequence_number=5 [...] -- INSERT c</span><br></pre></td></tr></table></figure></p>
+<p>可以看到，由于是在一个Session中，这些操作按着串行的顺序有着不同的 last_committed , 正常情况下，这些BinlogEvent应该在从机上同样以串行的方式回放。我们看一下在MGR集群中的relaylog 情况。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"># mysqlbinlog mysql-relay.N | grep -e last_  |  sed -e &apos;s/server id.*last/[...] last/&apos; -e &apos;s/.rbr_only.*/ [...]/&apos;</span><br><span class="line">#180106 19:31:36 [...] last_committed=0 sequence_number=0 [...]</span><br><span class="line">#180106 19:31:36 [...] last_committed=1 sequence_number=2 [...] -- CREATE DB</span><br><span class="line">#180106 19:31:36 [...] last_committed=2 sequence_number=3 [...] -- CREATE TB</span><br><span class="line">#180106 19:31:36 [...] last_committed=3 sequence_number=4 [...] -- INSERT a</span><br><span class="line">#180106 19:31:36 [...] last_committed=3 sequence_number=5 [...] -- INSERT b</span><br><span class="line">#180106 19:31:36 [...] last_committed=3 sequence_number=6 [...] -- INSERT c</span><br></pre></td></tr></table></figure>
+<p>有趣的是，在 Secondary  节点的 RelayLog 中, 这些事务有着相同的 last_committed 值，也就是说这些事务在MGR集群中，回放的时候可以以并行的方式回放。</p>
+<p>MGR中，使用的正是 WriteSet 技术检测不同事务之间是否存在写冲突，并重规划了事务的并行回放，这一技术在8.0中被移到了Binlog生成阶段，并采用到了主从复制的架构中。</p>
+<h1 id="MySQL-8-0-中的并行复制"><a href="#MySQL-8-0-中的并行复制" class="headerlink" title="MySQL 8.0 中的并行复制"></a>MySQL 8.0 中的并行复制</h1><p>说了这么多，终于讲到 MySQL 8.0 ， 通过以上描述，读者应该对 MySQL 8.0 中并行复制的优化的原理有了一个大致的轮廓。通过基于 WriteSet 的冲突检测，在主机上产生 Binlog 的时候，不再基于组提交，而是基于事务本身的更新冲突来确定并行关系。</p>
+<h2 id="相关的-MySQL-参数"><a href="#相关的-MySQL-参数" class="headerlink" title="相关的 MySQL 参数"></a>相关的 MySQL 参数</h2><p>MySQL 8.0 中引入参数 <code>binlog_transaction_depandency_tracking</code> 用于控制如何决定事务的依赖关系。该值有三个选项：默认的 <code>COMMIT_ORDERE</code> 表示继续使用5.7中的基于组提交的方式决定事务的依赖关系；<code>WRITESET</code> 表示使用写集合来决定事务的依赖关系；还有一个选项 <code>WRITESET_SESSION</code> 表示使用 WriteSet 来决定事务的依赖关系，但是同一个Session内的事务不会有相同的 last_committed 值。</p>
+<p>在代码实现上，MySQL采用一个 <code>vector&lt;uint64&gt;</code> 的变量存储已经提交的事务的HASH值，所有已经提交的事务的所修改的 主键和非空的 UniqueKey 的值经过HASH后与该vector中的值对比，以判断当前提交的事务是否与已经提交的事务更新了同一行，并以此确定依赖关系。该向量的大小由参数 <code>binlog_transaction_dependency_history_size</code> 控制，取值范围为 1-1000000 ，初始默认值为 25000。 同时有参数 <code>transaction_write_set_extraction</code> 控制检测事务依赖关系时采用的HASH算法，有三个取值 <code>OFF| XXHASH64 | MURMUR32</code>， 如果 binlog_transaction_depandency_tracking 取值为 WRITESET 或 WRITESET_SESSION, 那么该值取值不能为OFF，且不能变更。</p>
+<h2 id="WriteSet-依赖检测条件"><a href="#WriteSet-依赖检测条件" class="headerlink" title="WriteSet 依赖检测条件"></a>WriteSet 依赖检测条件</h2><p>WriteSet 是通过检测两个事务是否更新了相同的记录来判断事务能否并行回放的，因此需要在运行时保存已经提交的事务信息以记录历史事务更新了哪些行。记录历史事务的参数为 binlog_transaction_dependency_history_size. 该值越大可以记录更多的已经提交的事务信息，不过需要注意的是，这个值并非指事务大小，而是指追踪的事务更新信息的数量。在开启了 WRITESET 或 WRITESET_SESSION 后，MySQL 按以下的方式标识并记录事务的更新。</p>
+<ul>
+<li>如果事务当前更新的行有主键（Primary Key），则将 HASH(DB名，TABLE名，KEY名称，KEY_VALUE1, KEY_VALUE2,…..) 加入到当前事务的 vector<uint> write_set 中。</uint></li>
+<li>如果事务当前更新的行有非空的唯一键 （Unique Key Not NULL）， 同样将 HASH(DB名, TABLE名，KEY名, KEY_VALUE1, ….)加入到当前事务的 write_set 中。</li>
+<li>如果事务更新的行有外键约束( FOREIGN KEY )且不为空，则将该 外键信息与VALUE 的HASH加到当前事务的 write_set 中</li>
+<li>如果事务当前更新的表的主键是其他某个表的外键，并设置当前事务 has_related_foreign_key = true</li>
+<li>如果事务更新了某一行且没有任何数据被加入到 write_set 中，则标记当前事务 has_missing_key = true </li>
+</ul>
+<p>在执行冲突检测的时候，先会检查 has_related_foreign_key 和 has_missing_key ， 如果为true， 则退到 COMMIT_ORDER 模式。否则，会依照事务的 write_set 中的HASH值与已提交的事务的 write_set 进行比对，如果没有冲突，则当前事务与最后一个已提交的事务共享相同的 last_commited, 否则将从全局已提交的 write_set 中删除那个冲突的事务之前提交的所有write_set，并退化到 COMMIT_ORDER 计算last_committed 。 每次计算完事务的 last_committed 值以后，检测当前全局已提交事务的 write_set 是否已经超过了 binlog_transaction_dependency_history_size 设置的值，如果超过，则清空已提交事务的全局 write_set。</p>
+<p>从检测条件上看，该特性依赖于 主键和唯一索引，如果事务涉及的表中没有主键且没有唯一非空索引，那么将无法从此特性中获得性能的提升。除此之外，还需要将 Binlog 格式设置为 Row 格式。</p>
+<h2 id="性能提升"><a href="#性能提升" class="headerlink" title="性能提升"></a>性能提升</h2><p>MySQL High Availability 对开启了WriteSet的复制性能做了测试，这里直接将测试结果搬运过来，有兴趣的可以直接访问<a href="https://mysqlhighavailability.com/improving-the-parallel-applier-with-writeset-based-dependency-tracking/" target="_blank" rel="noopener">原博客</a></p>
+<p>测试时通过Sysbench 先在主机上执行100W条事务，然后开启Slave的复制线程，测试环境在Xeon E5-2699-V3 16核主机上执行，以下是测试结果</p>
+<p><img src="/postimgs/mysql8-writeset-based-replica/WS-RW.png" alt="ReadWrite"></p>
+<p><img src="/postimgs/mysql8-writeset-based-replica/WS-UI.png" alt="UpdateIndex"></p>
+<p><img src="/postimgs/mysql8-writeset-based-replica/WS-WO.png" alt="WriteOnly"></p>
+<p>可以看到，在客户端线程比较少的时候，WRITESET 具有最好的性能，在只有一个连接的时候 WRITESET_SESSION 和 COMMIT_ORDER 差别不大。</p>
+<h2 id="结论"><a href="#结论" class="headerlink" title="结论"></a>结论</h2><p>从 MySQL Hight Availability 的测试中可以看到，开启了基于 WriteSet 的事务依赖后，对Slave上RelayLog回放速度提升显著。Slave上的 RelayLog 回放速度将不再依赖于 Master 上提交时的并行程度，使得Slave上可以发挥其最大的吞吐能力， 这个特性在Slave上复制停止一段时间后恢复复制时尤其有效。</p>
+<p>这个特性使得 Slave 上可能拥有比 Master 上更大的吞吐量，同时可能在保证事务依赖关系的情况下，在 Slave 上产生 Master 上没有产生过的提交场景，事务的提交顺序可能会在 Slave 上发生改变。 虽然在5.7 的并行复制中就可能发生这种情况，不过在8.0中由于 Slave 上更高的并发能力，会使该场景更加常见。 通常情况下这不是什么大问题，不过如果在 Slave 上做基于 Binlog 的增量备份，可能就需要保证在 Slave 上与Master 上一致的提交顺序，这种情况下可以开启 <code>slave_preserve_commit_order</code> 这是一个 5.7 就引入的参数，可以保证 Slave 上并行回放的线程按 RelayLog 中写入的顺序 Commit。 </p>
+<h1 id="参考："><a href="#参考：" class="headerlink" title="参考："></a>参考：</h1><p><a href="http://jfg-mysql.blogspot.jp/2018/01/an-update-on-write-set-parallel-replication-bug-fix-in-mysql-8-0.html" target="_blank" rel="noopener">http://jfg-mysql.blogspot.jp/2018/01/an-update-on-write-set-parallel-replication-bug-fix-in-mysql-8-0.html</a><br><a href="http://jfg-mysql.blogspot.jp/2018/01/write-set-in-mysql-5-7-group-replication.html" target="_blank" rel="noopener">http://jfg-mysql.blogspot.jp/2018/01/write-set-in-mysql-5-7-group-replication.html</a><br><a href="https://mysqlhighavailability.com/improving-the-parallel-applier-with-writeset-based-dependency-tracking/" target="_blank" rel="noopener">https://mysqlhighavailability.com/improving-the-parallel-applier-with-writeset-based-dependency-tracking/</a></p>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2017/12/18/xml-not-porper-utf8/" itemprop="url">
+                  XML 文件出现 Input is not porper UTF-8, indicate encoding ! 解决办法
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2017-12-18T00:00:00+08:00" content="2017-12-18">
+              2017-12-18
+            </time>
+          </span>
+
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>最近项目中用 xStream 框架生成的 XML 用 Chrome 浏览器打开后报了 <code>Input is not porper UTF-8, indicate encoding !</code> 效果如下</p>
+<p><img src="/postimgs/xml-not-porper-utf8/xml.jpg" alt="image"></p>
+<p>其产生的原因是构成XML文件的字符中出现了XML标准中禁止出现的字符。XML标准中禁止文件的字符流中出现如下字符：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">#x0 - #x8 (ASCII 0 - 8)</span><br><span class="line">#xB - #xC (ASCII 11 - 12)</span><br><span class="line">#xE - #x1F (ASCII 14 - 31)</span><br></pre></td></tr></table></figure>
+<p>这些字符都是ASCII 码中的一些转义字符，在代码中过滤掉就好。数据库中出现这类字符的一个很大可能的原因是在MySQL的utf8 表中存入了 Emoji 表情。如果你的数据库中可能会存入Emoji表情，请设置数据库的存储格式为 utf8mb4 格式。</p>
+<p>可以使用如下的Java代码片段用于处理这种 XML文件。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> String <span class="title">removeIllegalXmlCharacter</span><span class="params">(String xml )</span></span>&#123;</span><br><span class="line">    <span class="keyword">return</span> xml.replaceAll(</span><br><span class="line">            <span class="string">"\\u0000|\\u0001|\\u0002|\\u0003|\\u0004|\\u0005|"</span> +</span><br><span class="line">                    <span class="string">"\\u0006|\\u0007|\\u0008|\\u0009|\\u000a|\\u000b|"</span> +</span><br><span class="line">                    <span class="string">"\\u000c|\\u000d|\\u000e|\\u000f|\\u0010|\\u0011|\\u0012|"</span> +</span><br><span class="line">                    <span class="string">"\\u0013|\\u0014|\\u0015|\\u0016|\\u0017|\\u0018|\\u0019|"</span> +</span><br><span class="line">                    <span class="string">"\\u001a|\\u001b|\\u001c|\\u001d|\\u001e|\\u001f"</span>,<span class="string">""</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2017/07/15/docker-with-centos/" itemprop="url">
+                  Centos 7.2 下Docker安装启动失败
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2017-07-15T00:00:00+08:00" content="2017-07-15">
+              2017-07-15
+            </time>
+          </span>
+
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>最近客户反应我小组维护的一个Dockers容器在Centos 7.2 下无法启动，故准备在测试环境重现一下，环境搭建过程中也遇到坑</p>
+<p>无论是通过 yum install docker 安装还是通过  curl -sSL <a href="https://get.docker.com" target="_blank" rel="noopener">https://get.docker.com</a> | sh 安装均无法启动，报错日志为:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">Jul 14 13:53:22 hamysql-test-zyx.novalocal dockerd[52512]: time=&quot;2017-07-14T13:53:22.901635424+08:00&quot; level=info msg=&quot;libcontainerd: new containerd process, pid: 52515&quot;</span><br><span class="line">Jul 14 13:53:23 hamysql-test-zyx.novalocal dockerd[52512]: time=&quot;2017-07-14T13:53:23.910526284+08:00&quot; level=info msg=&quot;[graphdriver] using prior storage driver: overlay&quot;</span><br><span class="line">Jul 14 13:53:23 hamysql-test-zyx.novalocal dockerd[52512]: time=&quot;2017-07-14T13:53:23.918338377+08:00&quot; level=info msg=&quot;Graph migration to content-addressability took 0.00 seconds&quot;</span><br><span class="line">Jul 14 13:53:23 hamysql-test-zyx.novalocal dockerd[52512]: time=&quot;2017-07-14T13:53:23.918623779+08:00&quot; level=warning msg=&quot;mountpoint for pids not found&quot;</span><br><span class="line">Jul 14 13:53:23 hamysql-test-zyx.novalocal dockerd[52512]: time=&quot;2017-07-14T13:53:23.918878700+08:00&quot; level=info msg=&quot;Loading containers: start.&quot;</span><br><span class="line">Jul 14 13:53:23 hamysql-test-zyx.novalocal dockerd[52512]: Error starting daemon: Error initializing network controller: list bridge addresses failed: no available network</span><br><span class="line">Jul 14 13:53:23 hamysql-test-zyx.novalocal systemd[1]: docker.service: main process exited, code=exited, status=1/FAILURE</span><br><span class="line">Jul 14 13:53:23 hamysql-test-zyx.novalocal systemd[1]: Failed to start Docker Application Container Engine.</span><br><span class="line">-- Subject: Unit docker.service has failed</span><br><span class="line">-- Defined-By: systemd</span><br><span class="line">-- Support: http://lists.freedesktop.org/mailman/listinfo/systemd-devel</span><br><span class="line">-- </span><br><span class="line">-- Unit docker.service has failed.</span><br><span class="line">-- </span><br><span class="line">-- The result is failed.</span><br></pre></td></tr></table></figure>
+<p>日志中有一句：Error starting daemon: Error initializing network controller：no available network 看上去应该是和网络有关，docker安装后会多出一个 docker0 的接口，是不是这个接口没有创建成功呢？通过 ip a 一看果然没有。后来在github上找到了相关讨论 <a href="https://github.com/moby/moby/issues/31546" target="_blank" rel="noopener">issues</a> 通过以下方法手工为docker创建接口即可：</p>
+<pre><code>sudo brctl addbr docker0
+sudo ip addr add 192.168.42.1/24 dev docker0
+sudo ip link set dev docker0 up
+ip addr show docker0
+sudo systemctl restart docker
+sudo iptables -t nat -L -n    
+</code></pre><p>如果没有 brctl 可以通过 <code>yum install bridge-utils</code> 命令安装。 <a href="https://github.com/moby/moby/issues/31546" target="_blank" rel="noopener">issues</a> 中提到可能产生的原因是宿主机上因为开了VPN的原因，当时我测试的机器虽然没有连着VPN但是由于是在云环境中创建的虚拟机，的确有多个网关接口，但是我后来在只有一个网关接口的虚拟机上测试，还是会有同样的问题。</p>
+<p>docker安装完成后我就开始测试镜像无法启动的问题，通过docker run命令的确无法启动，报错为：</p>
+<p><img src="/postimgs/docker-with-centos/overlay-err.png" alt="image"></p>
+<p>最终定位到原因是docker 存储格式的问题。在centos 下 docker支持的存储格式有两种，一种是 <code>overlayfs</code> 一种是 <code>devicemapper</code> overlayfx 是centos系统推出的一种更高效的存储格式，但是需要至少在内核版本 3.18 以上才支持，docker安装完成后默认设置了存储格式为 overlayfs 导致启动失败，解决方法也很简单，在 <code>/etc/docker/daemon.json</code> 中设置</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  &quot;storage-driver&quot;: &quot;devicemapper&quot;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>即可。<a href="https://docs.docker.com/engine/userguide/storagedriver/device-mapper-driver/#configure-loop-lvm-mode-for-testing" target="_blank" rel="noopener">Use the Device Mapper storage driver</a></p>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2016/09/30/ssh-tunnel/" itemprop="url">
+                  ssh反向隧道-借助公网服务器访问内网机器
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2016-09-30T00:00:00+08:00" content="2016-09-30">
+              2016-09-30
+            </time>
+          </span>
+
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h1 id="从外网到内网的访问"><a href="#从外网到内网的访问" class="headerlink" title="从外网到内网的访问"></a>从外网到内网的访问</h1><p>最近做学校的项目的时候遇到这样一种需求，项目需要在不同的学校的内网中部署服务器，并且希望可以对服务进行远程运维。校园网结构极其复杂，而且无法获取校园网关的权限做端口配置与转发，因此需要一种方法建立从外部网络访问内部网络的方法。鉴于项目中服务器是采用了Windows系统，于是直接采用了商业软件TeamViewer解决的。但是该软件的服务器位于国外，而且极不稳定并且没有提供Linux下的版本。由于项目后期可能会使用Linux，而且我们在公网有一台云服务器且部署在学校内部的服务器和办公区均可以无障碍的访问该外网下的云服务器，因此就产生了采用该服务器当中继访问内部网络的想法。</p>
+<p><img src="/postimgs/ssh-tunnel/ssh-tunnel.png" alt="image"></p>
+<p>具体的网络示意如图所示，其中绿色箭头的是设备实际可以的访问方向，而橘色虚线箭头表示希望建立访问的通路，即希望借助两个内网设备都可以访问到的外网服务器建立从PC-A 到 Server-Target的访问。</p>
+<h1 id="SSH反向隧道"><a href="#SSH反向隧道" class="headerlink" title="SSH反向隧道"></a>SSH反向隧道</h1><p>SSH大家都很熟悉，作为一种安全的传输协议，是目前linux下远程登录主机最常用的方法。不过linux下常用的ssh还有建立隧道与转发的功能。 可以通过 <code>ssh -L</code> 命令建立本地转发以及通过 <code>ssh -R</code> 命令建立远程转发。<br>这里采用的方式就是通过远程转发建立反向连接。</p>
+<p>直接上命令。 在需要被访问的内网主机 Server-Target上执行</p>
+<pre><code>ssh -fNg -R port:localhost:22 username@Server-Public
+</code></pre><p>上述命令中的 username是登录到服务器 Server-Public上的用户  </p>
+<p>参数 <code>-R</code> 表示建立ssh反向转发。服务器Server-Public 上的ssh服务端将会监听 <code>port</code> 端口并将该端口上的数据通过反向转发给 Server-Target， Server-Target 再将数据转发到 localhost:22 这个端口，也就是Server-Target的ssh登录端口。  </p>
+<p>参数 <code>f</code> 表示ssh反向转发隧道会一直在后台运行。</p>
+<p>参数 <code>N</code> 表示该反向隧道并不会执行命令，只是单纯的数据转发。</p>
+<p>参数 <code>g</code> 是 PC-A 可以登录到Server-Target服务器的关键。因为虽然反向转发建立成功了，Server-Public ssh服务端已经在监听指定的 port 端口，但是默认绑定的ip地址与端口号是 <code>127.0.0.1:port</code> 也就是说只监听来自本地的链接。 这个时候在Server-Public上通过ssh连接本地port端口可以登录到 Server-Target 上，但是其他主机是无法访问这个 port端口的。 必须通过参数 <code>g</code> 将ssh服务监听的端口绑定到 <code>0.0.0.0:port</code> 这个地址上。 <strong>需要注意的是ssh默认配置中是禁止远程主机访问转发端口的，因此只加上该参数还不行，需要修改配置ssh文件</strong><br>打开Server-Public 上的ssh配置文件，默认是在 /etc/ssh/sshd_config 。<br>在配置文件的最后加上或开启 <code>GatewayPorts yes</code>  然后重启 sshd 服务即可。</p>
+<p>在主机 PC-A上，通过ssh客户端连接 Server-Public 上刚才配置的端口，可以看到成功的登录到了主机 Server-Target</p>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2016/09/04/mydumper-principle/" itemprop="url">
+                  Mydumper原理-并行获取MySQL一致性数据
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2016-09-04T00:00:00+08:00" content="2016-09-04">
+              2016-09-04
+            </time>
+          </span>
+
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>相对于MySQL官方提供的逻辑备份工具 mysqldump ， mydumper最大的特点就是可以采用多线程并行备份，大大提高了数据导出的速度。这里对mydumper的工作原理做个分析，看一下mydumper如何巧妙的利用Innodb引擎提供的MVCC版本控制的功能，实现多线程并发获取一致性数据。</p>
+<p>这里一致性数据指的是在某个时间点，导出的数据与导出的Binlog文件信息相匹配，如果导出了多张表的数据，这些不同表之间的数据都是同一个时间点的数据。</p>
+<p>在mydumper进行备份的时候，由一个主线程以及多个备份线程完成。其主线程的流程是：</p>
+<ol>
+<li>连接数据库</li>
+<li>FLUSH TABLES WITH READ LOCK 将脏页刷新到磁盘并获得只读锁</li>
+<li>START TRANSACTION /<em>!40108 WITH CONSISTENT SNAPSHOT </em>/ 开启事物并获取一致性快照</li>
+<li>SHOW MASTER STATUS  获得binlog信息</li>
+<li>创建子线程并连接数据库</li>
+<li>为子线程分配任务并push到队列中</li>
+<li>UNLOCK TABLES /<em> FTWRL </em>/ 释放锁</li>
+</ol>
+<p>子线程的主要流程是：</p>
+<ol>
+<li>连接数据库</li>
+<li>SET SESSION TRANSACTION ISOLATION LEVEL REPEATABLE </li>
+<li>START TRANSACTION /<em>!40108 WITH CONSISTENT SNAPSHOT </em>/</li>
+<li>从队列中pop任务并执行</li>
+</ol>
+<p>上述两个线程的流程的关系如图</p>
+<p><img src="/postimgs/mydumper-principle/mydumper-threads.png" alt="image"></p>
+<p>从图中可以看到，主线程释放锁是在子线程开启事物之后。这里是保证子线程获得的数据一定为一致性数据的关键。<br>主线程在连接到数据库后立即通过Flush tables with read lock(FTWRL) 操作将脏页刷新到磁盘，并获取一个全局的只读锁，这样便可以保证在锁释放之前由主线程看到的数据是一致的。然后立即通过 Start Transaction with consistent snapshot 创建一个快照读事物，并通过 show master status获取binlog位置信息。<br>然后创建完成dump任务的子线程并为其分配任务。  </p>
+<p>主线程在创建子线程后通过一个异步消息队列 ready 等待子线程准备完毕。 子线程在创建后立即创建到MySQL数据库的连接，然后设置当前事务隔离级别为Repeatable Read。<br>设置完成之后开始快照读事务。在完成这一系列操作之后，子线程才会通过ready队列告诉主线自己程准备完毕。主线程等待全部子线程准备完毕开启一致性读Snapshot事务后才会释放全局只读锁（Unlock Table）。</p>
+<p>如果只有Innodb表，那么只有在创建任务阶段会加锁。但是如果存在MyIsam表或其他不带有MVCC功能的表，那么在这些表的导出任务完成之前都必须对这些表进行加锁。Mydumper本身维护了一个 non_innodb_table 列表，在创建任务阶段会首先为非Innodb表创建任务。同时还维护了一个全局的unlock_table队列以及一个原子计数器 non_innodb_table_counter , 子线程每完成一个非Innodb表的任务便将 non_innodb_table_counter 减一，如果non_innodb_table_counter 值为0 遍通过向 unlock_table 队列push一个消息的方式通知主线程完成了非Innodb表的导出任务可以执行 unlock table操作。</p>
+<p>mydumper支持记录级别的并发导出。在记录级别的导出时，主线程在做任务分配的时候会对表进行拆分，为表的一部分记录创建一个任务。这样做一个好处就是当有某个表特别大的时候可以尽可能的利用多线程并发以免某个线程在导出一个大表而其他线程处于空闲状态。在分割时，首先选取主键（PRIMARY KEY）作为分隔依据，如果没有主键则查找有无唯一索引(UNIQUE KEY)。在以上尝试都失败后，再选取一个区分度比较高的字段做为记录划分的依据(通过 show index 结果集中的cardinality的值确定)。</p>
+<p>划分的方式比较暴力，直接通过 select min(filed),max(filed) from table 获得划分字段的取值范围，通过 explain select filed from table 获取字段记录的行数，然后通过一个确定的步长获得每一个子任务的执行时的where条件。这种计算方式只支持数字类型的字段。</p>
+<p>以上就是mydumper的并发获取一致性数据的方式，其关键在于利用了Innodb表的MVCC功能，可以通过快照读因此只有在任务创建阶段才需要加锁。</p>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2016/08/24/hello-world/" itemprop="url">
+                  Hello World
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2016-08-24T00:00:00+08:00" content="2016-08-24">
+              2016-08-24
+            </time>
+          </span>
+
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>第一篇博客，千里之行始于足下，慢慢积累吧。</p>
+<p>这个静态站是基于 <code>hexo</code> 搭的，主题用的是一个叫作 <a href="http://theme-next.iissnan.com/getting-started.html" target="_blank" rel="noopener">NexT</a> 的开源主题. 之前也尝试过 <code>jekyll</code> 然而折腾了一天都没搞定，遇到过各种坑，也没有找到满意的模板，可能天生和Ruby属性相克吧。</p>
+<p>前俩天阿里二面，被虐的不要不要的。不出意外的跪了，只会用的东西就不应该往简历上写啊。<br>就先这样吧。</p>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+  </section>
+
+  
+
+
+          </div>
+          
+
+
+          
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+
+      <section class="site-overview sidebar-panel  sidebar-panel-active ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image" src="/assert/ava.gif" alt="北雁南归">
+          <p class="site-author-name" itemprop="name">北雁南归</p>
+          <p class="site-description motion-element" itemprop="description"></p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives/">
+              <span class="site-state-item-count">8</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              
+                <span class="site-state-item-count">3</span>
+                <span class="site-state-item-name">标签</span>
+              
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+      </section>
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">北雁南归</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.1"></script>
+
+
+
+  
+  
+
+  
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

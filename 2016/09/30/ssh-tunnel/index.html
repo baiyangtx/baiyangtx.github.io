@@ -1,0 +1,555 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion">
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.proxy.ustclug.org/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css">
+
+
+  <meta name="keywords" content="Hexo, NexT">
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.1">
+
+
+
+
+
+
+<meta name="description" content="从外网到内网的访问最近做学校的项目的时候遇到这样一种需求，项目需要在不同的学校的内网中部署服务器，并且希望可以对服务进行远程运维。校园网结构极其复杂，而且无法获取校园网关的权限做端口配置与转发，因此需要一种方法建立从外部网络访问内部网络的方法。鉴于项目中服务器是采用了Windows系统，于是直接采用了商业软件TeamViewer解决的。但是该软件的服务器位于国外，而且极不稳定并且没有提供Linux">
+<meta property="og:type" content="article">
+<meta property="og:title" content="ssh反向隧道-借助公网服务器访问内网机器">
+<meta property="og:url" content="https://baiyangtx.github.io/2016/09/30/ssh-tunnel/index.html">
+<meta property="og:site_name" content="BaiyangTX&#39;s Site">
+<meta property="og:description" content="从外网到内网的访问最近做学校的项目的时候遇到这样一种需求，项目需要在不同的学校的内网中部署服务器，并且希望可以对服务进行远程运维。校园网结构极其复杂，而且无法获取校园网关的权限做端口配置与转发，因此需要一种方法建立从外部网络访问内部网络的方法。鉴于项目中服务器是采用了Windows系统，于是直接采用了商业软件TeamViewer解决的。但是该软件的服务器位于国外，而且极不稳定并且没有提供Linux">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="https://baiyangtx.github.io/postimgs/ssh-tunnel/ssh-tunnel.png">
+<meta property="og:updated_time" content="2020-02-18T03:41:40.029Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="ssh反向隧道-借助公网服务器访问内网机器">
+<meta name="twitter:description" content="从外网到内网的访问最近做学校的项目的时候遇到这样一种需求，项目需要在不同的学校的内网中部署服务器，并且希望可以对服务进行远程运维。校园网结构极其复杂，而且无法获取校园网关的权限做端口配置与转发，因此需要一种方法建立从外部网络访问内部网络的方法。鉴于项目中服务器是采用了Windows系统，于是直接采用了商业软件TeamViewer解决的。但是该软件的服务器位于国外，而且极不稳定并且没有提供Linux">
+<meta name="twitter:image" content="https://baiyangtx.github.io/postimgs/ssh-tunnel/ssh-tunnel.png">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 0,
+      author: '博主'
+    }
+  };
+</script>
+
+
+
+
+  <link rel="canonical" href="https://baiyangtx.github.io/2016/09/30/ssh-tunnel/">
+
+  <title> ssh反向隧道-借助公网服务器访问内网机器 | BaiyangTX's Site </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">BaiyangTX's Site</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle"></p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                ssh反向隧道-借助公网服务器访问内网机器
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2016-09-30T00:00:00+08:00" content="2016-09-30">
+              2016-09-30
+            </time>
+          </span>
+
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="从外网到内网的访问"><a href="#从外网到内网的访问" class="headerlink" title="从外网到内网的访问"></a>从外网到内网的访问</h1><p>最近做学校的项目的时候遇到这样一种需求，项目需要在不同的学校的内网中部署服务器，并且希望可以对服务进行远程运维。校园网结构极其复杂，而且无法获取校园网关的权限做端口配置与转发，因此需要一种方法建立从外部网络访问内部网络的方法。鉴于项目中服务器是采用了Windows系统，于是直接采用了商业软件TeamViewer解决的。但是该软件的服务器位于国外，而且极不稳定并且没有提供Linux下的版本。由于项目后期可能会使用Linux，而且我们在公网有一台云服务器且部署在学校内部的服务器和办公区均可以无障碍的访问该外网下的云服务器，因此就产生了采用该服务器当中继访问内部网络的想法。</p>
+<p><img src="/postimgs/ssh-tunnel/ssh-tunnel.png" alt="image"></p>
+<p>具体的网络示意如图所示，其中绿色箭头的是设备实际可以的访问方向，而橘色虚线箭头表示希望建立访问的通路，即希望借助两个内网设备都可以访问到的外网服务器建立从PC-A 到 Server-Target的访问。</p>
+<h1 id="SSH反向隧道"><a href="#SSH反向隧道" class="headerlink" title="SSH反向隧道"></a>SSH反向隧道</h1><p>SSH大家都很熟悉，作为一种安全的传输协议，是目前linux下远程登录主机最常用的方法。不过linux下常用的ssh还有建立隧道与转发的功能。 可以通过 <code>ssh -L</code> 命令建立本地转发以及通过 <code>ssh -R</code> 命令建立远程转发。<br>这里采用的方式就是通过远程转发建立反向连接。</p>
+<p>直接上命令。 在需要被访问的内网主机 Server-Target上执行</p>
+<pre><code>ssh -fNg -R port:localhost:22 username@Server-Public
+</code></pre><p>上述命令中的 username是登录到服务器 Server-Public上的用户  </p>
+<p>参数 <code>-R</code> 表示建立ssh反向转发。服务器Server-Public 上的ssh服务端将会监听 <code>port</code> 端口并将该端口上的数据通过反向转发给 Server-Target， Server-Target 再将数据转发到 localhost:22 这个端口，也就是Server-Target的ssh登录端口。  </p>
+<p>参数 <code>f</code> 表示ssh反向转发隧道会一直在后台运行。</p>
+<p>参数 <code>N</code> 表示该反向隧道并不会执行命令，只是单纯的数据转发。</p>
+<p>参数 <code>g</code> 是 PC-A 可以登录到Server-Target服务器的关键。因为虽然反向转发建立成功了，Server-Public ssh服务端已经在监听指定的 port 端口，但是默认绑定的ip地址与端口号是 <code>127.0.0.1:port</code> 也就是说只监听来自本地的链接。 这个时候在Server-Public上通过ssh连接本地port端口可以登录到 Server-Target 上，但是其他主机是无法访问这个 port端口的。 必须通过参数 <code>g</code> 将ssh服务监听的端口绑定到 <code>0.0.0.0:port</code> 这个地址上。 <strong>需要注意的是ssh默认配置中是禁止远程主机访问转发端口的，因此只加上该参数还不行，需要修改配置ssh文件</strong><br>打开Server-Public 上的ssh配置文件，默认是在 /etc/ssh/sshd_config 。<br>在配置文件的最后加上或开启 <code>GatewayPorts yes</code>  然后重启 sshd 服务即可。</p>
+<p>在主机 PC-A上，通过ssh客户端连接 Server-Public 上刚才配置的端口，可以看到成功的登录到了主机 Server-Target</p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2016/09/04/mydumper-principle/" rel="next" title="Mydumper原理-并行获取MySQL一致性数据">
+                <i class="fa fa-chevron-left"></i> Mydumper原理-并行获取MySQL一致性数据
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/07/15/docker-with-centos/" rel="prev" title="Centos 7.2 下Docker安装启动失败">
+                Centos 7.2 下Docker安装启动失败 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image" src="/assert/ava.gif" alt="北雁南归">
+          <p class="site-author-name" itemprop="name">北雁南归</p>
+          <p class="site-description motion-element" itemprop="description"></p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives/">
+              <span class="site-state-item-count">8</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              
+                <span class="site-state-item-count">3</span>
+                <span class="site-state-item-name">标签</span>
+              
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#从外网到内网的访问"><span class="nav-number">1.</span> <span class="nav-text">从外网到内网的访问</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#SSH反向隧道"><span class="nav-number">2.</span> <span class="nav-text">SSH反向隧道</span></a></li></ol></div>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">北雁南归</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.1"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

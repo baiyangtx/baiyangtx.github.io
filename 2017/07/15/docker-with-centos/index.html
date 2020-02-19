@@ -1,0 +1,559 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion">
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.proxy.ustclug.org/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css">
+
+
+  <meta name="keywords" content="Hexo, NexT">
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.1">
+
+
+
+
+
+
+<meta name="description" content="最近客户反应我小组维护的一个Dockers容器在Centos 7.2 下无法启动，故准备在测试环境重现一下，环境搭建过程中也遇到坑 无论是通过 yum install docker 安装还是通过  curl -sSL https://get.docker.com | sh 安装均无法启动，报错日志为: 123456789101112131415Jul 14 13:53:22 hamysql-tes">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Centos 7.2 下Docker安装启动失败">
+<meta property="og:url" content="https://baiyangtx.github.io/2017/07/15/docker-with-centos/index.html">
+<meta property="og:site_name" content="BaiyangTX&#39;s Site">
+<meta property="og:description" content="最近客户反应我小组维护的一个Dockers容器在Centos 7.2 下无法启动，故准备在测试环境重现一下，环境搭建过程中也遇到坑 无论是通过 yum install docker 安装还是通过  curl -sSL https://get.docker.com | sh 安装均无法启动，报错日志为: 123456789101112131415Jul 14 13:53:22 hamysql-tes">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="https://baiyangtx.github.io/postimgs/docker-with-centos/overlay-err.png">
+<meta property="og:updated_time" content="2020-02-18T03:41:40.025Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Centos 7.2 下Docker安装启动失败">
+<meta name="twitter:description" content="最近客户反应我小组维护的一个Dockers容器在Centos 7.2 下无法启动，故准备在测试环境重现一下，环境搭建过程中也遇到坑 无论是通过 yum install docker 安装还是通过  curl -sSL https://get.docker.com | sh 安装均无法启动，报错日志为: 123456789101112131415Jul 14 13:53:22 hamysql-tes">
+<meta name="twitter:image" content="https://baiyangtx.github.io/postimgs/docker-with-centos/overlay-err.png">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 0,
+      author: '博主'
+    }
+  };
+</script>
+
+
+
+
+  <link rel="canonical" href="https://baiyangtx.github.io/2017/07/15/docker-with-centos/">
+
+  <title> Centos 7.2 下Docker安装启动失败 | BaiyangTX's Site </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">BaiyangTX's Site</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle"></p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                Centos 7.2 下Docker安装启动失败
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2017-07-15T00:00:00+08:00" content="2017-07-15">
+              2017-07-15
+            </time>
+          </span>
+
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>最近客户反应我小组维护的一个Dockers容器在Centos 7.2 下无法启动，故准备在测试环境重现一下，环境搭建过程中也遇到坑</p>
+<p>无论是通过 yum install docker 安装还是通过  curl -sSL <a href="https://get.docker.com" target="_blank" rel="noopener">https://get.docker.com</a> | sh 安装均无法启动，报错日志为:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">Jul 14 13:53:22 hamysql-test-zyx.novalocal dockerd[52512]: time=&quot;2017-07-14T13:53:22.901635424+08:00&quot; level=info msg=&quot;libcontainerd: new containerd process, pid: 52515&quot;</span><br><span class="line">Jul 14 13:53:23 hamysql-test-zyx.novalocal dockerd[52512]: time=&quot;2017-07-14T13:53:23.910526284+08:00&quot; level=info msg=&quot;[graphdriver] using prior storage driver: overlay&quot;</span><br><span class="line">Jul 14 13:53:23 hamysql-test-zyx.novalocal dockerd[52512]: time=&quot;2017-07-14T13:53:23.918338377+08:00&quot; level=info msg=&quot;Graph migration to content-addressability took 0.00 seconds&quot;</span><br><span class="line">Jul 14 13:53:23 hamysql-test-zyx.novalocal dockerd[52512]: time=&quot;2017-07-14T13:53:23.918623779+08:00&quot; level=warning msg=&quot;mountpoint for pids not found&quot;</span><br><span class="line">Jul 14 13:53:23 hamysql-test-zyx.novalocal dockerd[52512]: time=&quot;2017-07-14T13:53:23.918878700+08:00&quot; level=info msg=&quot;Loading containers: start.&quot;</span><br><span class="line">Jul 14 13:53:23 hamysql-test-zyx.novalocal dockerd[52512]: Error starting daemon: Error initializing network controller: list bridge addresses failed: no available network</span><br><span class="line">Jul 14 13:53:23 hamysql-test-zyx.novalocal systemd[1]: docker.service: main process exited, code=exited, status=1/FAILURE</span><br><span class="line">Jul 14 13:53:23 hamysql-test-zyx.novalocal systemd[1]: Failed to start Docker Application Container Engine.</span><br><span class="line">-- Subject: Unit docker.service has failed</span><br><span class="line">-- Defined-By: systemd</span><br><span class="line">-- Support: http://lists.freedesktop.org/mailman/listinfo/systemd-devel</span><br><span class="line">-- </span><br><span class="line">-- Unit docker.service has failed.</span><br><span class="line">-- </span><br><span class="line">-- The result is failed.</span><br></pre></td></tr></table></figure>
+<p>日志中有一句：Error starting daemon: Error initializing network controller：no available network 看上去应该是和网络有关，docker安装后会多出一个 docker0 的接口，是不是这个接口没有创建成功呢？通过 ip a 一看果然没有。后来在github上找到了相关讨论 <a href="https://github.com/moby/moby/issues/31546" target="_blank" rel="noopener">issues</a> 通过以下方法手工为docker创建接口即可：</p>
+<pre><code>sudo brctl addbr docker0
+sudo ip addr add 192.168.42.1/24 dev docker0
+sudo ip link set dev docker0 up
+ip addr show docker0
+sudo systemctl restart docker
+sudo iptables -t nat -L -n    
+</code></pre><p>如果没有 brctl 可以通过 <code>yum install bridge-utils</code> 命令安装。 <a href="https://github.com/moby/moby/issues/31546" target="_blank" rel="noopener">issues</a> 中提到可能产生的原因是宿主机上因为开了VPN的原因，当时我测试的机器虽然没有连着VPN但是由于是在云环境中创建的虚拟机，的确有多个网关接口，但是我后来在只有一个网关接口的虚拟机上测试，还是会有同样的问题。</p>
+<p>docker安装完成后我就开始测试镜像无法启动的问题，通过docker run命令的确无法启动，报错为：</p>
+<p><img src="/postimgs/docker-with-centos/overlay-err.png" alt="image"></p>
+<p>最终定位到原因是docker 存储格式的问题。在centos 下 docker支持的存储格式有两种，一种是 <code>overlayfs</code> 一种是 <code>devicemapper</code> overlayfx 是centos系统推出的一种更高效的存储格式，但是需要至少在内核版本 3.18 以上才支持，docker安装完成后默认设置了存储格式为 overlayfs 导致启动失败，解决方法也很简单，在 <code>/etc/docker/daemon.json</code> 中设置</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  &quot;storage-driver&quot;: &quot;devicemapper&quot;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>即可。<a href="https://docs.docker.com/engine/userguide/storagedriver/device-mapper-driver/#configure-loop-lvm-mode-for-testing" target="_blank" rel="noopener">Use the Device Mapper storage driver</a></p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2016/09/30/ssh-tunnel/" rel="next" title="ssh反向隧道-借助公网服务器访问内网机器">
+                <i class="fa fa-chevron-left"></i> ssh反向隧道-借助公网服务器访问内网机器
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/12/18/xml-not-porper-utf8/" rel="prev" title="XML 文件出现 Input is not porper UTF-8, indicate encoding ! 解决办法">
+                XML 文件出现 Input is not porper UTF-8, indicate encoding ! 解决办法 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image" src="/assert/ava.gif" alt="北雁南归">
+          <p class="site-author-name" itemprop="name">北雁南归</p>
+          <p class="site-description motion-element" itemprop="description"></p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives/">
+              <span class="site-state-item-count">8</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              
+                <span class="site-state-item-count">3</span>
+                <span class="site-state-item-name">标签</span>
+              
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <p class="post-toc-empty">此文章未包含目录</p>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">北雁南归</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.1"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
